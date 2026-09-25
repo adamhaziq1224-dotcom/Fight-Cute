@@ -1,0 +1,10 @@
+// Shared dash is optional; all platform routes remain reachable without it.
+function expeditionDash(){const c=scene==='free'?freeRun:scene==='challenge'?challengeRun:null;if(!c||c.paused||c.ended||c.quiz||(c.p.dashCD||0)>0)return;c.p.dash=.13;c.p.dashCD=1.5;c.p.climbing=false;if(scene==='free'){c.hurt=Math.max(c.hurt,.14);freeSpark(c.p.x,c.p.y-20,'#7fe8d1');}else c.invincible=Math.max(c.invincible,.14);}
+for(const [id,root] of [['free-dash',document.querySelector('#free-play')],['ch-dash',chPlay]]){const b=document.createElement('button');b.id=id;b.className='dash-control';b.textContent='DASH · SHIFT';b.onpointerdown=e=>{e.preventDefault();expeditionDash();};b.onclick=e=>{if(e.detail===0)expeditionDash();};root.append(b);}
+addEventListener('keydown',e=>{if(e.key==='Shift'&&!e.repeat&&(scene==='free'||scene==='challenge')){e.preventDefault();expeditionDash();}});
+function tickExpeditionDash(c,dt){const p=c.p;p.dash=Math.max(0,(p.dash||0)-dt);p.dashCD=Math.max(0,(p.dashCD||0)-dt);const b=document.querySelector(scene==='free'?'#free-dash':'#ch-dash');if(b){b.disabled=p.dashCD>0;b.textContent=p.dashCD>0?'DASH '+p.dashCD.toFixed(1)+'s':'DASH · SHIFT';}}
+function drawDepthDetails(g,platforms,camX,camY,time){g.save();g.translate(-camX,-camY);for(const f of platforms){if(f.absent>0||f.x>camX+650||f.x+f.w<camX-10||f.y<camY-30||f.y>camY+370)continue;g.fillStyle='#17263855';g.beginPath();g.moveTo(f.x+f.w,f.y+6);g.lineTo(f.x+f.w+7,f.y+1);g.lineTo(f.x+f.w+7,f.y+18);g.lineTo(f.x+f.w,f.y+23);g.fill();g.fillStyle='#fff9de88';g.fillRect(f.x,f.y-2,f.w,1);g.fillStyle='#152d4d44';g.fillRect(f.x+3,f.y+12,f.w-6,3);for(let x=f.x+12;x<f.x+f.w;x+=42){g.fillStyle='#f7eac43b';g.fillRect(x,f.y+7,2,2);}}g.restore();}
+const baseFreeDraw=drawFree;drawFree=function(){baseFreeDraw();const c=freeRun;drawDepthDetails(freeG,c.world.platforms,c.camera,0,c.time);};
+const baseChallengeDraw=drawChallenge;drawChallenge=function(){baseChallengeDraw();drawDepthDetails(chG,chPlatforms,0,challengeRun.camera,challengeRun.time);};
+// Renderer portraits stay consistent across battle and adventure selection.
+for(const [i,s] of Object.entries(moveStats))s.speed*=1.1;

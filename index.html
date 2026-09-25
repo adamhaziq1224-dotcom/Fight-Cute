@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9799d9">
+<title>Fight Cute</title>
+<link rel="stylesheet" href="src/styles/interface.css">
+<link rel="stylesheet" href="src/styles/battle.css">
+<link rel="stylesheet" href="src/styles/challenge.css">
+<link rel="stylesheet" href="src/styles/free-mode.css">
+<link rel="stylesheet" href="src/styles/music.css">
+<link rel="stylesheet" href="src/styles/premium.css">
+</head>
+<body>
+<main aria-label="Fight Cute">
+<h1 class="sr-only">Fight Cute</h1>
+<canvas id="world" aria-hidden="true">
+</canvas>
+<div id="stage">
+<button id="start" aria-label="Start game">Start game</button>
+<section id="modes" aria-labelledby="mode-title" hidden>
+<h2 id="mode-title" class="sr-only">Select Mode</h2>
+<button id="back" aria-label="Back to title">← BACK</button>
+<p class="mode-intro">CHOOSE YOUR MISSION</p>
+<div class="mode-grid">
+<button class="mode-card" data-mode="free" aria-pressed="false">
+<span class="mode-number">01</span>
+<svg class="mode-art" viewBox="0 0 144 76" shape-rendering="crispEdges" aria-hidden="true">
+<path fill="#bce5df" d="M0 0h144v76H0z"/>
+<path fill="#fff0b7" d="M106 12h12v4h4v12h-4v4h-12v-4h-4V16h4z"/>
+<path fill="#fff9eb" d="M22 24h9v-5h13v5h9v6H22zM75 38h12v-4h10v4h13v6H75z"/>
+<path fill="#82b7b0" d="M0 61h36v-9h31v13h32v-7h45v18H0z"/>
+<path fill="#63948f" d="M0 68h144v8H0z"/>
+<path fill="#e2d1a2" d="M8 55h36v7H8zM97 52h38v7H97z"/>
+<path fill="#71977e" d="M8 53h36v4H8zM97 50h38v4H97z"/>
+<path fill="#695178" d="M63 37h5V25h6v12h5V25h6v16h4v18h-4v5H64v-5h-5V41h4z"/>
+<path fill="#fff5e9" d="M65 41h20v16H65zM66 28h5v14h-5zM79 28h3v14h-3zM67 56h15v6H67z"/>
+<path fill="#f3b4cf" d="M66 47h4v3h-4zM80 47h4v3h-4z"/>
+<path fill="#695178" d="M71 45h2v3h-2zM78 45h2v3h-2zM74 51h3v2h-3z"/>
+</svg>
+<strong>FREE MODE</strong>
+<span class="description">Terokai dunia pixel.<br>Lawan, lompat &amp; teruskan!</span>
+</button>
+<button class="mode-card" data-mode="versus" aria-pressed="false">
+<span class="mode-number">02</span>
+<svg class="mode-art" viewBox="0 0 144 76" shape-rendering="crispEdges" aria-hidden="true">
+<path fill="#f1c5d6" d="M0 0h144v76H0z"/>
+<path fill="#d2c4ec" d="M89 0h55v76H54z"/>
+<path fill="#fff1ba" d="M77 14h12L74 36h9L61 65l7-24H57z"/>
+<path fill="#94799d" d="M0 66h144v10H0z"/>
+<path fill="#695178" d="M26 36V24h7v14h8V24h7v14h5v23H23V38h3z"/>
+<path fill="#fff5ec" d="M26 41h24v18H26zM28 27h3v14h-3zM43 27h3v14h-3z"/>
+<path fill="#695178" d="M34 45h3v4h-3zM44 45h3v4h-3z"/>
+<path fill="#f4aec8" d="M28 51h5v3h-5zM44 52h5v3h-5z"/>
+<path fill="#695178" d="M98 31h6l7 7h6l8-7h5v30H98z"/>
+<path fill="#b09ad3" d="M101 36h3l7 7h7l9-7v22h-26z"/>
+<path fill="#fff4de" d="M104 47h4v4h-4zM118 47h4v4h-4z"/>
+<path fill="#f0aecb" d="M102 53h5v2h-5zM120 53h5v2h-5z"/>
+</svg>
+<strong>1 VS 1 MODE</strong>
+<span class="description">Satu lawan satu.<br>Siapa paling hebat?</span>
+</button>
+<button class="mode-card" data-mode="challenge" aria-pressed="false">
+<span class="mode-number">03</span>
+<svg class="mode-art" viewBox="0 0 144 76" shape-rendering="crispEdges" aria-hidden="true">
+<path fill="#f3dfba" d="M0 0h144v76H0z"/>
+<path fill="#e2cbaa" d="M0 65h144v11H0z"/>
+<path fill="#695178" d="M52 19h40v7h13v21H92v7H79v8h15v7H50v-7h15v-8H52v-7H39V26h13z"/>
+<path fill="#e8ae65" d="M42 29h10v5h-5v7h8v4H42zM92 29h10v16H89v-4h8v-7h-5z"/>
+<path fill="#ffdb87" d="M55 22h34v22h-5v6H60v-6h-5zM69 49h6v16h-6zM54 64h36v3H54z"/>
+<path fill="#fff2b9" d="M58 25h4v15h-4zM62 24h22v3H62z"/>
+<path fill="#d49b67" d="M70 29h5v5h6v5h-6v6h-5v-6h-6v-5h6z"/>
+<path fill="#fff9e9" d="M25 34h3v9h-3zM22 37h9v3h-9zM115 21h3v9h-3zM112 24h9v3h-9z"/>
+</svg>
+<strong>CHALLENGE MODE</strong>
+<span class="description">Sahut cabaran khas.<br>Uji skill, buru kemenangan!</span>
+</button>
+</div>
+<p id="mode-status" role="status">Tiga cara bermain. Pilih gaya anda.</p>
+<p class="mode-help">← → PILIH MODE · ENTER PILIH · ESC KEMBALI</p>
+</section>
+<section id="levels" aria-labelledby="levels-title" hidden>
+<h2 class="sr-only" id="levels-title">Challenge Mode — Pilih Level</h2>
+<button id="levels-back" aria-label="Back to modes">← MODES</button>
+<p class="mode-intro">Pilih level anda. Pengembaraan bermula di sini!</p>
+<div class="level-grid">
+<button class="level-tile" data-level="1" aria-label="Level 1, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">1</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="2" aria-label="Level 2, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">2</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="3" aria-label="Level 3, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">3</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="4" aria-label="Level 4, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">4</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="5" aria-label="Level 5, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">5</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="6" aria-label="Level 6, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">6</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="7" aria-label="Level 7, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">7</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="8" aria-label="Level 8, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">8</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="9" aria-label="Level 9, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">9</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+<button class="level-tile" data-level="10" aria-label="Level 10, 0 daripada 3 bintang" aria-pressed="false">
+<span class="level-caption">LEVEL</span>
+<span class="level-number">10</span>
+<span class="level-stars">
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+<svg class="empty-star" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges">
+<path d="M10 2H14V7H17V9H22V13H18V16H19V21H15V19H9V21H5V16H6V13H2V9H7V7H10Z" fill="none" stroke="#b5a5c0" stroke-width="2" stroke-linejoin="miter"/>
+</svg>
+</span>
+</button>
+</div>
+<p id="level-status" role="status">10 level comel untuk diterokai.</p>
+<p class="mode-help">← ↑ ↓ → PILIH LEVEL · ENTER PILIH · ESC KEMBALI</p>
+</section>
+<section id="versus" aria-labelledby="versus-title" hidden>
+<h2 id="versus-title" class="sr-only">1 vs 1 — Character Select</h2>
+<button id="versus-back" aria-label="Back to modes">← MODES</button>
+<p class="mode-intro">Pilih character untuk Player dan NPC.</p>
+<div class="fighter-panel player" id="player-panel">
+<button class="target-button" data-target="player" aria-pressed="false">PLAYER</button>
+<div class="fighter-preview" id="player-preview" aria-hidden="true">—</div>
+<strong class="fighter-name" id="player-name">Belum dipilih</strong>
+<span class="fighter-personality" id="player-personality">
+</span>
+<p class="fighter-hint" id="player-skill">Pilih haiwan untuk lihat kelebihannya.</p>
+<div class="fighter-stats" id="player-stats">
+</div>
+</div>
+<div class="roster-grid">
+<button class="roster-slot" data-slot="1" aria-label="Character 01">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">01</span>
+<small>CHARACTER 01</small>
+</button>
+<button class="roster-slot" data-slot="2" aria-label="Character 02">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">02</span>
+<small>CHARACTER 02</small>
+</button>
+<button class="roster-slot" data-slot="3" aria-label="Character 03">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">03</span>
+<small>CHARACTER 03</small>
+</button>
+<button class="roster-slot" data-slot="4" aria-label="Character 04">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">04</span>
+<small>CHARACTER 04</small>
+</button>
+<button class="roster-slot" data-slot="5" aria-label="Character 05">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">05</span>
+<small>CHARACTER 05</small>
+</button>
+<button class="roster-slot" data-slot="6" aria-label="Character 06">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">06</span>
+<small>CHARACTER 06</small>
+</button>
+<button class="roster-slot" data-slot="7" aria-label="Character 07">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">07</span>
+<small>CHARACTER 07</small>
+</button>
+<button class="roster-slot random" data-slot="random" aria-label="Random character">
+<span class="slot-badges">
+</span>
+<span class="slot-placeholder" aria-hidden="true">?</span>
+<small>RANDOM</small>
+</button>
+</div>
+<div class="fighter-panel npc" id="npc-panel">
+<button class="target-button" data-target="npc" aria-pressed="false">NPC</button>
+<div class="fighter-preview" id="npc-preview" aria-hidden="true">—</div>
+<strong class="fighter-name" id="npc-name">Belum dipilih</strong>
+<span class="fighter-personality" id="npc-personality">
+</span>
+<p class="fighter-hint" id="npc-skill">Pilih haiwan untuk lihat kelebihannya.</p>
+<div class="fighter-stats" id="npc-stats">
+</div>
+</div>
+<button id="confirm-player" disabled>PASTI</button>
+<button id="confirm-npc" disabled>PASTI</button>
+<p id="versus-status" role="status">
+</p>
+<p class="mode-help">← ↑ ↓ → PILIH SLOT · ENTER PILIH · ESC KEMBALI</p>
+</section>
+<section id="maps" aria-labelledby="maps-title" hidden>
+<h2 id="maps-title" class="sr-only">Select Map</h2>
+<button id="maps-back" aria-label="Back to characters">← CHARACTERS</button>
+<p class="mode-intro">Pilih arena untuk pertarungan anda.</p>
+<div class="map-grid">
+<button class="map-card" data-map="1" aria-label="Palm Beach" aria-pressed="false">
+<img src="assets/maps/arena-01.webp" alt="Tropical palm beach, gracefully arching realistic palms framing warm ivory sand, clear turquoise ocean and small foamy waves, distant green islands, bright late afternoon sunshine and soft clouds" decoding="async">
+<strong>PALM BEACH</strong>
+</button>
+<button class="map-card" data-map="2" aria-label="Sakura Katana" aria-pressed="false">
+<img src="assets/maps/arena-02.webp" alt="Peaceful Japanese sakura courtyard for a katana duel, realistic pink cherry blossoms, drifting petals, wooden dojo and stone lanterns, distant mountains, two crossed ceremonial katana resting on a modest display at one edge" decoding="async">
+<strong>SAKURA KATANA</strong>
+</button>
+<button class="map-card" data-map="3" aria-label="China Neon City" aria-pressed="false">
+<img src="assets/maps/arena-03.webp" alt="Chinese neon city street at blue hour after rain" decoding="async">
+<strong>CHINA NEON CITY</strong>
+</button>
+<button class="map-card" data-map="4" aria-label="Sky Kingdom" aria-pressed="false">
+<img src="assets/maps/arena-04.webp" alt="Dreamlike arena in the sky: a broad ivory marble terrace floating among enormous realistic sunlit cumulus clouds, distant floating gardens and elegant pale stone arches, blue sky, warm shafts of sunlight, convincing stone textures and atmospheric depth" decoding="async">
+<strong>SKY KINGDOM</strong>
+</button>
+<button class="map-card" data-map="5" aria-label="Moonlight" aria-pressed="false">
+<img src="assets/maps/arena-05.webp" alt="Tranquil lunar arena, realistic softly textured lunar regolith and low crater rim across foreground, distant rocky mountains, breathtaking blue Earth above horizon in deep star-filled space" decoding="async">
+<strong>MOONLIGHT</strong>
+</button>
+<button class="map-card" data-map="6" aria-label="Cozy Library" aria-pressed="false">
+<img src="assets/maps/arena-06.webp" alt="Warm grand library interior with tall real wooden bookshelves, detailed books without legible text, arched windows, golden afternoon light and dust motes, lamps, reading desks set back" decoding="async">
+<strong>COZY LIBRARY</strong>
+</button>
+<button class="map-card" data-map="7" aria-label="College Campus" aria-pressed="false">
+<img src="assets/maps/arena-07.webp" alt="Beautiful college campus courtyard in spring, realistic red-brick academic buildings with clock tower, large windows and ivy, leafy trees, landscaped lawns, benches, warm daylight" decoding="async">
+<strong>COLLEGE CAMPUS</strong>
+</button>
+<button class="map-card" data-map="random" aria-label="Random" aria-pressed="false">
+<svg viewBox="0 0 120 64" preserveAspectRatio="none" shape-rendering="crispEdges" aria-hidden="true">
+<rect x="0" y="0" width="120" height="64" fill="#d5c7e5"/>
+<path fill="#fff1c5" d="M47 12h27v5h5v14h-6v6H63v7H53V33h10v-5h6v-7H52v5H42v-9h5zM53 49h10v9H53z"/>
+<path fill="#fff7ec" d="M17 20h3v9h-3zM14 23h9v3h-9zM96 40h3v9h-3zM93 43h9v3h-9z"/>
+</svg>
+<strong>RANDOM</strong>
+</button>
+</div>
+<p id="map-status" role="status">7 arena unik. Di mana kita akan bertarung?</p>
+<p class="mode-help">← ↑ ↓ → PILIH MAP · ENTER PILIH · ESC KEMBALI</p>
+</section>
+<section id="loading-screen" aria-labelledby="loading-title" hidden>
+<p id="loading-map" class="loading-map">
+</p>
+<div class="tip-card">
+<span class="tip-label">✦ CLUB TIP ✦</span>
+<p id="loading-tip">
+</p>
+</div>
+<div class="loading-row">
+<div id="loading-bunny" aria-hidden="true">
+</div>
+<h2 id="loading-title" tabindex="-1" aria-live="polite">Loading<span class="loading-dots" aria-hidden="true">...</span>
+</h2>
+</div>
+<p id="loading-detail" role="status">Menyiapkan arena pilihan anda.</p>
+<button id="loading-back">← KEMBALI KE MAP</button>
+</section>
+<section id="battle" aria-label="1 vs 1 battle arena" hidden>
+ <canvas id="arena-canvas" width="640" height="360" aria-label="Battle arena with Player and NPC">
+</canvas>
+<div class="match-vignette">
+</div>
+ <div class="match-hud">
+  <div class="match-fighter">
+<div class="match-name">
+<span class="match-role">PLAYER</span>
+<span id="battle-player-name">
+</span>
+</div>
+<div class="health-track" id="player-health" role="progressbar" aria-label="Player health" aria-valuemin="0">
+<div class="health-fill" id="player-health-fill">
+</div>
+<span class="hp-numbers" id="player-hp-text">
+</span>
+</div>
+<div class="energy-row">
+<span>ENERGY</span>
+<div class="energy-track" id="player-energy" role="progressbar" aria-label="Player energy" aria-valuemin="0" aria-valuemax="100">
+<div class="energy-fill" id="player-energy-fill">
+</div>
+</div>
+<span id="player-energy-text">0%</span>
+</div>
+</div>
+  <div class="match-fighter right">
+<div class="match-name">
+<span id="battle-npc-name">
+</span>
+<span class="match-role">NPC</span>
+</div>
+<div class="health-track" id="npc-health" role="progressbar" aria-label="NPC health" aria-valuemin="0">
+<div class="health-fill" id="npc-health-fill">
+</div>
+<span class="hp-numbers" id="npc-hp-text">
+</span>
+</div>
+<div class="energy-row">
+<span>ENERGY</span>
+<div class="energy-track" id="npc-energy" role="progressbar" aria-label="NPC energy" aria-valuemin="0" aria-valuemax="100">
+<div class="energy-fill" id="npc-energy-fill">
+</div>
+</div>
+<span id="npc-energy-text">0%</span>
+</div>
+</div>
+ </div>
+ <div class="match-center">
+<span id="match-timer">90</span>
+<span id="match-map-label">
+</span>
+</div>
+<button id="match-pause" aria-label="Pause match">Ⅱ</button>
+ <div id="match-announcement" role="status">
+</div>
+<div id="combat-toast" aria-live="polite">
+</div>
+ <div class="match-controls">
+  <div id="joystick" role="button" aria-label="Movement joystick. Drag left or right to move, up to jump." tabindex="0">
+<span class="stick-mark">+</span>
+<span id="joystick-thumb">
+</span>
+</div>
+<div class="stick-hint">A / D — MOVE<br>W / SPACE — JUMP</div>
+  <div class="action-controls">
+<button class="fight-button" id="attack-btn" aria-label="Attack, J">ATTACK<small>J</small>
+</button>
+<button class="fight-button" id="heavy-btn" aria-label="Heavy attack, K">HEAVY<small>K</small>
+</button>
+<button class="fight-button" id="skill-btn" aria-label="Character skill, E">SKILL<small>E</small>
+</button>
+<button class="fight-button" id="guard-btn" aria-label="Hold to guard, R">GUARD<small>R</small>
+</button>
+<button class="fight-button" id="jump-btn" aria-label="Jump, W">JUMP<small>W</small>
+</button>
+<button class="fight-button" id="ultimate-btn" disabled>ULTIMATE · Q</button>
+</div>
+ </div>
+<span class="battle-note">ESC — PAUSE · ENERGY 100% — ULTIMATE</span>
+ <div id="battle-overlay" hidden>
+<div class="battle-dialog" role="dialog" aria-modal="true" aria-labelledby="battle-result-title">
+<h2 id="battle-result-title">Paused</h2>
+<p id="battle-result-text">
+</p>
+<button id="battle-resume">RESUME</button>
+<button id="battle-rematch">REMATCH</button>
+<button id="battle-maps" class="secondary">CHOOSE MAP</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<audio id="game-music" src="assets/audio/expedition-theme.wav" loop preload="metadata"></audio>
+<script defer src="src/game/title.js">
+</script>
+<script defer src="src/game/navigation.js">
+</script>
+<script defer src="src/game/characters.js">
+</script>
+<script defer src="src/game/character-select.js">
+</script>
+<script defer src="src/game/loading.js">
+</script>
+<script defer src="src/game/map-select.js">
+</script>
+<script defer src="src/game/combat.js">
+</script>
+<script defer src="src/game/hud.js">
+</script>
+<script defer src="src/game/arenas.js">
+</script>
+<script defer src="src/game/fighters.js">
+</script>
+<script defer src="src/game/controls.js">
+</script>
+<script defer src="src/game/puzzles.js"></script>
+<script defer src="src/game/challenge-data.js"></script>
+<script defer src="src/game/challenge.js"></script>
+<script defer src="src/game/free-data.js"></script>
+<script defer src="src/game/free-mode.js"></script>
+<script defer src="src/game/music.js"></script>
+<script defer src="src/game/premium.js"></script>
+</body>
+</html>

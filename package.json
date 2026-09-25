@@ -1,0 +1,15 @@
+{
+  "name": "fight-cute",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Editable offline animal fighting game",
+  "scripts": {
+    "dev": "node tools/serve.cjs",
+    "start": "node tools/serve.cjs",
+    "check": "node tools/check.cjs",
+    "build": "node tools/build.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
