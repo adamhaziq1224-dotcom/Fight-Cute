@@ -5,7 +5,7 @@ challengeRoot.innerHTML = `
  <div id="challenge-select">
   <button class="ch-small" id="ch-select-back">← LEVELS</button>
   <p class="ch-eyebrow">CHALLENGE · LEVEL 01</p><h2>Pick your sky explorer</h2>
-  <p class="ch-description">Climb, explore, solve relay gates and reach the flag.</p>
+  <p class="ch-description">Climb, collect glowing keys and reach the flag.</p>
   <div id="ch-roster" role="group" aria-label="Choose your character"></div>
   <p id="ch-choice" aria-live="polite">Choose one of your seven explorers.</p>
   <button id="ch-confirm" class="ch-primary" disabled>PASTI · LET’S CLIMB</button>
@@ -74,7 +74,7 @@ function pauseChallenge(){if(!challengeRun||challengeRun.ended||challengeRun.pau
 document.querySelector('#ch-pause').onclick=pauseChallenge;
 function finishChallenge(){
  const c=challengeRun;if(c.ended)return;
- const pending=c.course.gates.find(q=>!q.solved);if(pending){c.message='Find and solve every relay gate before the finish.';c.messageUntil=c.time+3;return;}
+ const pending=c.course.gates.find(q=>!q.solved);if(pending){c.message='Collect the glowing keys at every gate before the finish.';c.messageUntil=c.time+3;return;}
  c.ended=true;c.won=true;const coins=c.coins.filter(q=>q.taken).length,stars=1+(coins>=Math.ceil(c.coins.length*.8)?1:0)+(c.hits===0&&c.wrong===0?1:0);
  campaignStars[c.course.level-1]=Math.max(campaignStars[c.course.level-1],stars);try{localStorage.setItem('fight-cute-campaign-v1',JSON.stringify(campaignStars));localStorage.setItem('fight-cute-challenge-1-stars',String(campaignStars[0]));}catch{}
  refreshChallengeStars();challengeDialog(c.course.level===10?'TEN WORLDS, ONE BRAVE HEART!':'ADVENTURE COMPLETE!',`${coins}/${c.coins.length} coins · ${Math.floor(c.time)} seconds · ${c.hits} hits · ${c.wrong} puzzle assists. Stars: finish, collect 80% of coins, and take no hits or puzzle assists.`,true,stars);
@@ -139,8 +139,8 @@ function updateChallenge(dt){
  if(p.grounded&&Math.abs(p.y-c.course.goal.y)<1&&Math.abs(p.x-c.course.goal.x)<30)finishChallenge();
 }
 function updateChallengeHUD(){
- const c=challengeRun;if(!c)return;document.querySelector('#ch-hearts').textContent='♥ '.repeat(c.hearts)+'♡ '.repeat(3-c.hearts);document.querySelector('#ch-coins').textContent='✦ '+c.coins.filter(q=>q.taken).length+' / '+c.coins.length;document.querySelector('#ch-clock').textContent=Math.floor(c.time/60)+':'+String(Math.floor(c.time%60)).padStart(2,'0');document.querySelector('#ch-tip').textContent=c.time<c.messageUntil?c.message:'Blue = moving · Cracked = crumbling · J to bop · Reach every ? gate';
- const solved=c.course.gates.filter(q=>q.solved).length;document.querySelector('#ch-objective').textContent=`WISDOM ${solved}/${c.course.gates.length}`;document.querySelector('#ch-progress-fill').style.height=clamp((c.course.bottom-c.p.y)/(c.course.bottom-c.course.top)*100,0,100)+'%';
+ const c=challengeRun;if(!c)return;document.querySelector('#ch-hearts').textContent='♥ '.repeat(c.hearts)+'♡ '.repeat(3-c.hearts);document.querySelector('#ch-coins').textContent='✦ '+c.coins.filter(q=>q.taken).length+' / '+c.coins.length;document.querySelector('#ch-clock').textContent=Math.floor(c.time/60)+':'+String(Math.floor(c.time%60)).padStart(2,'0');document.querySelector('#ch-tip').textContent=c.time<c.messageUntil?c.message:'Blue = moving · Cracked = crumbling · J to bop · Collect 3 keys at each gate';
+ const solved=c.course.gates.filter(q=>q.solved).length;document.querySelector('#ch-objective').textContent=`GATES ${solved}/${c.course.gates.length}`;document.querySelector('#ch-progress-fill').style.height=clamp((c.course.bottom-c.p.y)/(c.course.bottom-c.course.top)*100,0,100)+'%';
 }
 function challengeAttack(){const c=challengeRun;if(!c||c.paused||c.ended||c.quiz||c.p.attackCD>0)return;const p=c.p;p.attackCD=.42;p.action={type:'attack',duration:.3,windup:.07,t:.07,range:55};for(const e of c.course.enemies)if(!e.dead&&Math.abs(e.x-p.x)<58&&(e.x-p.x)*p.face>=-12&&Math.abs(e.y-(p.y-24))<48){e.dead=true;p.cheer=.6;}for(const q of c.projectiles)if(Math.hypot(q.x-p.x,q.y-(p.y-24))<60)q.life=0;}
 function challengeInteract(){const c=challengeRun;if(!c||c.paused||c.ended||c.quiz)return;const gate=c.course.gates.find(q=>!q.solved&&Math.abs(q.y-c.p.y)<8&&Math.abs(q.x-c.p.x)<55);if(gate)openChallengeQuiz(gate);}
@@ -186,13 +186,13 @@ requestAnimationFrame(challengeFrame);
 // Wisdom gates freeze simulation; mistakes offer a hint, not lost health.
 chPlay.insertAdjacentHTML('beforeend',`<div id="ch-quiz" role="dialog" aria-modal="true" aria-labelledby="ch-question" hidden><div class="ch-quiz-card"><span class="quiz-badge">✦ RELAY TERMINAL ✦</span><h2 id="ch-question"></h2><p>Solve the system. Movement pauses while the terminal is open.</p><div id="ch-answers"></div><p id="ch-feedback" role="status"></p><button class="ch-primary" id="ch-quiz-continue" hidden>GATE OPEN · CONTINUE</button><button class="ch-small" id="ch-quiz-exit">RETURN TO TRAIL</button></div></div><div id="ch-height"><span>⚑</span><div><i id="ch-progress-fill"></i></div><small>↑</small></div>`);
 document.querySelector('.ch-counters').insertAdjacentHTML('beforeend','<small id="ch-objective"></small>');
-document.querySelector('.ch-touch').insertAdjacentHTML('beforeend','<button id="ch-bop" class="ch-small">BOP <small>J</small></button><button id="ch-use" class="ch-small">SOLVE <small>E</small></button>');
+document.querySelector('.ch-touch').insertAdjacentHTML('beforeend','<button id="ch-bop" class="ch-small">BOP <small>J</small></button><button id="ch-use" class="ch-small">HINT <small>E</small></button>');
 document.querySelector('#ch-retry').insertAdjacentHTML('afterend','<button id="ch-next" class="ch-primary" hidden>NEXT ADVENTURE →</button>');
 document.querySelector('#ch-next').onclick=()=>{selectedLevel=Math.min(10,challengeRun.course.level+1);beginChallenge();};
 document.querySelector('#ch-bop').onclick=challengeAttack;document.querySelector('#ch-use').onclick=challengeInteract;
-document.querySelector('.ch-key-help').textContent='A / D MOVE · W / S CLIMB · SPACE JUMP · J BOP · E SOLVE · ESC PAUSE';
+document.querySelector('.ch-key-help').textContent='A / D MOVE · W / S CLIMB · SPACE JUMP · J BOP · E HINT · ESC PAUSE';
 document.querySelector('#ch-quiz-exit').onclick=()=>{document.querySelector('#ch-quiz').hidden=true;exitChallenge();};
-function openChallengeQuiz(gate){const c=challengeRun;if(c.quiz)return;c.quiz=gate;clearChallengeInput();document.querySelector('#ch-quiz').hidden=false;document.querySelector('#ch-question').textContent='RELAY '+String(c.course.level).padStart(2,'0');document.querySelector('#ch-feedback').textContent='';document.querySelector('#ch-quiz-continue').hidden=true;mountRelayPuzzle(document.querySelector('#ch-answers'),c.course.level+c.course.gates.indexOf(gate),c.course.level,()=>{gate.solved=true;c.p.cheer=1;document.querySelector('#ch-quiz-continue').hidden=false;document.querySelector('#ch-quiz-continue').focus();},()=>c.wrong++);}
+function openChallengeQuiz(gate){const c=challengeRun;if(!c||gate.solved)return;c.message='Walk through the 3 glowing keys on this platform to open the gate.';c.messageUntil=c.time+2;}
 document.querySelector('#ch-quiz-continue').onclick=()=>{challengeRun.quiz=null;clearChallengeInput();document.querySelector('#ch-quiz').hidden=true;document.querySelector('#ch-pause').focus();};
 document.querySelector('#ch-quiz').addEventListener('keydown',e=>{if(e.key!=='Tab')return;const buttons=[...e.currentTarget.querySelectorAll('button')].filter(b=>!b.hidden&&!b.disabled);if(e.shiftKey&&document.activeElement===buttons[0]){e.preventDefault();buttons.at(-1).focus();}else if(!e.shiftKey&&document.activeElement===buttons.at(-1)){e.preventDefault();buttons[0].focus();}});
 function drawCampaignBackdrop(g,c,t){

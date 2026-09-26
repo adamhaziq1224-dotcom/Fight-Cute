@@ -22,4 +22,4 @@ async function pixelateMapPreviews(){
   }catch(error){console.warn('Using original map preview:',img.alt);}
  }));
 }
-pixelateMapPreviews();
+// Procedural retro previews are painted by retro-art.js.

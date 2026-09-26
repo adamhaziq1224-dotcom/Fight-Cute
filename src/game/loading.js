@@ -21,11 +21,11 @@ async function openLoading(){
  document.querySelector('#loading-title').innerHTML='Loading<span class="loading-dots" aria-hidden="true">...</span>';
  document.querySelector('#loading-detail').textContent='Menyiapkan arena pilihan anda.';
  document.querySelector('#loading-title').focus();
- // Decode the actual selected arena; the short minimum display lets the tip be read.
+ // Prepare the procedural arena; the short minimum display lets the tip be read.
  const img=document.querySelector('.map-card[data-map="'+selectedMap+'"] img');
  let deadline;
  try{
-  await Promise.all([Promise.race([img.decode(),new Promise((_,reject)=>{deadline=setTimeout(()=>reject(new Error('Map loading timed out')),15000);})]),new Promise(resolve=>{loadingTimer=setTimeout(resolve,3600);})]);
+  await Promise.all([Promise.race([arenaImage(selectedMap),new Promise((_,reject)=>{deadline=setTimeout(()=>reject(new Error('Map loading timed out')),15000);})]),new Promise(resolve=>{loadingTimer=setTimeout(resolve,3600);})]);
   if(run!==loadingRun||scene!=='loading')return;
   loadingScreen.classList.add('ready');loadingScreen.setAttribute('aria-busy','false');
   document.querySelector('#loading-title').textContent='Ready!';

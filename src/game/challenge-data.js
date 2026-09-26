@@ -1,6 +1,6 @@
 // Campaign content. All courses are deterministic and share the same movement rules.
 const campaignLevels = [
- {name:'Skyline Relay',icon:'☁',colors:['#8d81d4','#b6dcef','#c9dfa9'],motif:'candy',lesson:'Learn ladders, jumps and your first relay terminal.',nodes:10,enemy:1,quiz:1},
+ {name:'Skyline Relay',icon:'☁',colors:['#8d81d4','#b6dcef','#c9dfa9'],motif:'candy',lesson:'Learn ladders and jumps. Collect three glowing keys at each gate.',nodes:10,enemy:1,quiz:1},
  {name:'Mossy Meadows',icon:'♣',colors:['#639c98','#d3e4c1','#8cca96'],motif:'forest',lesson:'Meet roaming jelly creatures. Jump on them or press J.',nodes:11,enemy:1,quiz:1},
  {name:'Coral Coast',icon:'≈',colors:['#4ca6c5','#d9f1ee','#f3d19b'],motif:'sea',lesson:'Ride the gently moving blue platforms.',nodes:12,enemy:2,quiz:1},
  {name:'Sakura Steps',icon:'❀',colors:['#aa83b5','#f1d7e7','#efadc7'],motif:'sakura',lesson:'Watch for pink thorns on the ends of islands.',nodes:13,enemy:3,quiz:2},
@@ -9,7 +9,7 @@ const campaignLevels = [
  {name:'Lunar Archive',icon:'☾',colors:['#333961','#929aca','#c3b7df'],motif:'moon',lesson:'Gentle moon gravity gives longer jumps. Control your landing.',nodes:16,enemy:5,quiz:2},
  {name:'Clockwork Library',icon:'▤',colors:['#736785','#e3c9b1','#d3ac7e'],motif:'library',lesson:'Watch sentries charge, then dodge their slow star shots.',nodes:17,enemy:6,quiz:3},
  {name:'Storm Academy',icon:'ϟ',colors:['#505982','#adb7d3','#b4a2d5'],motif:'college',lesson:'Airborne gusts, narrow steps and mixed enemies test your timing.',nodes:18,enemy:7,quiz:3},
- {name:'Astral Citadel',icon:'♛',colors:['#6b5b9f','#e6c9de','#f0d293'],motif:'palace',lesson:'The final climb combines every lesson. Solve three relay systems.',nodes:20,enemy:9,quiz:3}
+ {name:'Astral Citadel',icon:'♛',colors:['#6b5b9f','#e6c9de','#f0d293'],motif:'palace',lesson:'The final climb combines every lesson. Collect the keys at all three gates.',nodes:20,enemy:9,quiz:3}
 ];
 const campaignQuestions = [
  ['You collect 2 pink sweets and 3 blue sweets. How many sweets?', ['4','5','6'],1,'Count on from 2: 3, 4, 5.'],

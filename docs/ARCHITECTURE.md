@@ -53,3 +53,17 @@ An amber route key, solved gate and mint boss key are all required at exit. Comp
 Load puzzles.js before challenge.js, and premium.js after all mode scripts. The older campaignQuestions array remains unused legacy content: both gate flows now mountRelayPuzzle. The puzzle model is deterministic and scrambled by valid reversible moves; there is no multiple-choice answer path. Matrix neighbours toggle modulo 2; adjacent linked dials rotate modulo 4. Undo/reset do not penalize; campaign hints increment the existing assistance counter used for perfect stars.
 
 Premium wraps adventure draw functions to add side faces to platforms and adds a shared optional dash. Both physics loops tick dash timers only while running and set burst velocity before normal collision resolution. Dash never teleports past collision checks. Character selection SVG and articulated rig both use expedition vests. Rendering remains Canvas 2D with simulated volume and parallax. Existing save keys are retained.
+
+## Retro renderer
+
+Load retro-art.js last. It supplies cached 96×96 palette sprites and replaces drawFighter, animalSVG, spriteImage, arenaImage, drawEnvironment, drawFree and drawChallenge. spriteImage returns pixel canvases directly, avoiding the legacy SVG decoder. Pose selection is quantized to four frames. Pixel transparency is binary (0 or 255); smoothing is disabled when scaling. The sky alone uses a stepped pastel colour ramp. Other objects use flat colour clusters and dithering. CSS retro overrides come last; build.cjs embeds the original TTF.
+
+## Active final overrides
+
+Load living-arenas.js after retro-art.js, then chibi-combat.js last. living-arenas replaces arena painting, previews and arenaImage. Its near foreground wrapper draws after the fighters; decorative props do not change the ground collision line (278). All layers have explicit .10/.35/.78 camera offsets. Reduced-motion preferences freeze ambient timelines. Loading prepares the procedural canvas, so the retired map images are no longer required to enter combat.
+
+chibi-combat replaces retroSprite/drawFighter with one 64px source shared by all modes. It wraps beginMatch, endBattle, HUD updates and drawMatch for the three-stock system and small heart VFX. Calling beginMatch resets stocks; KO respawns preserve the clock and other fighter state. Timeout uses stocks plus normalized remaining HP. Matching stylesheet comes last.
+
+## Relay suite lifecycle
+
+relay-games.js loads last and replaces mountRelayPuzzle while preserving its integration callback. Each mount disposes the previous session. A single requestAnimationFrame clock runs only for the mounted visible host and skips document-hidden time. Completion is guarded and invokes the gate callback once. The suite handles its own reset/undo/retry and marks assistance using the existing callback. Free selects uniformly from ten types; Challenge maps directly to the level number. Matrix variants use reversible legal moves; locked cells are excluded from both direct and adjacent changes. Wire routes are noncrossing templates with randomized rotation and numbered endpoints. Master stages share one session. Legacy puzzles.js is retained but no longer mounts the active gate UI.

@@ -9,6 +9,7 @@ html = html.replace(/src="(assets\/[^"]+)"/g, (_, file) => {
   const mime = ext === 'wav' ? 'audio/wav' : 'image/' + (ext === 'jpg' ? 'jpeg' : ext);
   return 'src="data:' + mime + ';base64,' + fs.readFileSync(path.join(root, file)).toString('base64') + '"';
 });
+html = html.replace(/url\(['"]?\.\.\/\.\.\/assets\/fonts\/retro-grid\.ttf['"]?\)/g, () => 'url(data:font/ttf;base64,' + fs.readFileSync(path.join(root, 'assets/fonts/retro-grid.ttf')).toString('base64') + ')');
 fs.mkdirSync(path.join(root, 'dist'), {recursive:true});
 fs.writeFileSync(path.join(root, 'dist', 'index.html'), html);
 console.log('Exported dist/index.html — standalone offline game.');

@@ -30,3 +30,15 @@ The final standalone Free Mode export passed all five routes again and retained 
 ## Expedition revision verification
 
 The latest revision replaces all multiple-choice interactions with two relay puzzle types. A scripted driver completed ten Challenge routes and five Free routes with the faster physics, active enemies and puzzle completion through cell buttons. Scripted puzzle solving reverses known generation moves; this verifies solvability/integration, not human puzzle difficulty. Separate model tests reversed 250 generated puzzles (25 seeds × 10 tiers). UI checks covered undo, reset, hint, gate completion, frozen simulation, dash velocity/cooldown and pause. Mobile landscape puzzle and world screens were visually inspected. Broad human age-group difficulty and perceived premium quality still need playtesting.
+
+## Retro art revision
+
+Validated all seven sprites across six poses and four frames: no partial-alpha pixels and each palette stays below 24 colours. Original RetroGrid font loads without browser font errors. Ten Challenge routes, five Free routes, puzzles/dash and 1v1 controls/damage/pause/ultimate passed. Desktop and 896×504 mobile landscape screenshots were inspected. Retro changes affect rendering and presentation; underlying collision routes and difficulty are retained.
+
+## Living arena / 64px combat verification
+
+All seven arena renders changed across time and camera offsets, used all three parallax factors, and rendered opaque canvases. Random had no canvas. Reduced-motion froze arena animation. 1v1 selection/loading and every arena were opened; desktop/mobile screenshots inspected. Seven 64×64 characters across six poses and four frames had binary alpha and 9–10 colours (below the 16-colour limit). First/second stock respawns, third-stock KO, dimmed hearts and timeout stock priority passed. All ten Challenge and five Free routes still completed.
+
+## Ten-puzzle suite
+
+All ten Challenge gate types were solved through rendered controls, including three-stage Master Relay. Checked 400 randomized toggle boards for legal reversible solutions, immovable locked cells and nonempty starts. Verified memory hides after three seconds, gate completion/resume and world freeze. Real mouse drag solved Wire Reroute; a 20-second Sweep timeout, retry, touch clear and close cleanup passed. Sampling 100 Free mounts reached all ten types. Desktop/mobile gate screenshots inspected; no page errors observed. Scripted solvers inspect generated models, so these checks verify solvability/integration rather than human difficulty.
