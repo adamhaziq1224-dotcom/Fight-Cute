@@ -120,10 +120,10 @@ function updateChallenge(dt){
  const ladder=chLadders.find(l=>Math.abs(p.x-l.x)<18&&p.y>=l.top-3&&p.y<=l.bottom+3);
  if(ladder&&dy&&p.detach===0){p.climbing=true;p.grounded=false;p.x=ladder.x;p.vy=0;}
  if(p.dash>0)p.vx=p.face*360;
- if(p.climbing){if(!ladder||dx){p.climbing=false;p.vy=0;}else{p.y+=dy*132*dt;p.vx=0;if(p.y<=ladder.top){p.y=ladder.top;p.climbing=false;p.grounded=true;}if(p.y>=ladder.bottom){p.y=ladder.bottom;p.climbing=false;p.grounded=true;}}}
+ if(p.climbing){if(!ladder||dx){p.climbing=false;p.vy=0;}else{p.y+=(ladder.reverse?Math.abs(dy):dy)*132*dt;p.vx=0;if(p.y<=ladder.top){p.y=ladder.top;p.climbing=false;p.grounded=true;}if(p.y>=ladder.bottom){p.y=ladder.bottom;p.climbing=false;p.grounded=true;}}}
  const previous=p.y;
  if(!p.climbing){const gust=c.course.level>=9&&!p.grounded?Math.sin(c.time*.8)*13:0;p.x=clamp(p.x+(p.vx+gust)*dt,12,628);p.vy+=c.course.gravity*dt;p.y+=p.vy*dt;p.grounded=false;p.standing=null;
-  if(p.vy>=0)for(const f of chPlatforms){if(f.absent>0)continue;if(p.x>f.x-5&&p.x<f.x+f.w+5&&previous<=f.y+1&&p.y>=f.y){if(p.vy>120)p.land=.16;p.y=f.y;p.vy=0;p.grounded=true;p.standing=f.index;if(f.crumble&&!f.age)f.age=.001;break;}}
+  if(p.vy>=0)for(const f of chPlatforms){if(f.absent>0||f.illusion)continue;if(p.x>f.x-5&&p.x<f.x+f.w+5&&previous<=f.y+1&&p.y>=f.y){if(p.vy>120)p.land=.16;p.y=f.y;p.vy=0;p.grounded=true;p.standing=f.index;if(f.crumble&&!f.age)f.age=.001;break;}}
  }
  if(p.grounded){const f=chPlatforms[p.standing];if(f?.checkpoint&&f.y<c.highest){c.highest=f.y;c.checkpoint={x:f.x+f.w/2,y:f.y};c.message='CHECKPOINT · Your next safe place is saved.';c.messageUntil=c.time+3;}}
  for(const coin of c.coins)if(!coin.taken&&Math.hypot(p.x-coin.x,p.y-22-coin.y)<28){coin.taken=true;p.cheer=.65;}
