@@ -116,3 +116,19 @@ The implementation keeps the shared 128px chibi sprites and adds proportional pi
 
 ## Portrait handheld layout
 Portrait (width < height) uses an original lavender handheld shell, recessed screen and large controls below the game. The game stays 16:9 with letterboxing. Existing control DOM nodes are temporarily moved to the dock, preserving their event handlers; landscape restores them to their exact original parents. Rotation clears held input only, without replacing match/course state. Portrait menus offer large shortcut buttons, and pause dialogs use the same shortcuts. Safe-area insets and compact 320px-wide phones are supported. `src/game/handheld.js` and `src/styles/handheld.css` implement the presentation.
+
+## Free Mode: randomized world puzzle framework
+
+`src/game/expedition-puzzles.js` replaces Free Mode's simple key trail with exactly three in-world trials in each of the five worlds. Every new run shuffles Cloud Stepping-Stone Sequence (platforming), Windmill Redirect (environmental timing/direction), and Sleeping Guardian Bypass (combat plus a back-route exploration option). Parameters and fan phases/directions are randomized; levels increase cloud count, narrow footholds, add a third fan, shorten gust windows and make guardians notice the player sooner. There is no quiz dialog.
+
+Clouds must be visited in numbered order; standing for two seconds makes one disappear for 3.5 seconds. Ground contact resets the sequence. Fans alternate ON/OFF: USE reverses their direction; ride every right-facing fan before reaching the altar. The sleeper can be bypassed by jumping behind it and pressing USE, or cleared with a barrel (USE near it). Attacking or lingering in front alerts exactly two additional guards; defeat both and USE the chest as a fallback. Unsolved trials reset on respawn; earned keys persist. All three trial keys open the gate before the existing boss trial. Challenge mode retains its simpler key platforms.
+
+Verification includes all 15 rewards, supported encounter placements, increasing geometric difficulty, cloud fade/return, stealth/barrel/alert fallback, pause and key persistence. Scripted movement using normal jump/gust physics completed cloud and wind routes in all five worlds. These checks establish route feasibility, not broad human difficulty playtesting.
+
+## Three-phase weakpoint bosses (all five Free worlds)
+
+`src/game/weakpoint-boss.js` replaces timer-survival victory. Boss HP scales from 100 to 180. Phase 1 (above 60% HP) cycles telegraphed slam, volley and lunge attacks. A clean evasion by moving, jumping or dashing opens a short glowing weakpoint window; only attacks during that window deal damage, capped at two hits per opening. Phase 2 (60%–30%) raises two moving platforms, adds a telegraphed hazard strip and introduces a ground shockwave. Phase 3 (30% and below) attacks more frequently and adds a marked burst; a clean last-0.10-second dash during its tell opens a longer, higher-damage punish window.
+
+The boss HUD displays HP and phase, never survival time. Depleting HP awards the existing mint-key pickup. Losing all player hearts restarts the boss at full HP/phase 1 while retaining expedition puzzle keys. No timed automatic victory or passive stagger-to-win path remains. Ninja projectiles also obey weakpoint damage rules. Existing pause, portrait/landscape, jump, attack and dash controls are reused.
+
+Automated checks cover phase thresholds and weakpoint victories on all five worlds, armour protection, failed-dodge rejection, raised platforms, defeat-key pickup, loss/reset, and pause. Difficulty still benefits from human playtesting.
